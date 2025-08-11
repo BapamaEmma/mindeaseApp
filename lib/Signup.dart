@@ -11,6 +11,12 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  String Name = '', Age = '', Email = '', Password = '';
+  TextEditingController nameController = TextEditingController();
+  TextEditingController ageController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   bool _obscureText = true;
 
   @override
@@ -44,13 +50,23 @@ class _SignupState extends State<Signup> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              TextField(decoration: _inputDecoration('Name')),
-              const SizedBox(height: 30),
-              TextField(decoration: _inputDecoration('Age')),
-              const SizedBox(height: 30),
-              TextField(decoration: _inputDecoration('Email')),
+              TextField(
+                controller: nameController,
+                decoration: _inputDecoration('Name'),
+              ),
               const SizedBox(height: 30),
               TextField(
+                controller: ageController,
+                decoration: _inputDecoration('Age'),
+              ),
+              const SizedBox(height: 30),
+              TextField(
+                controller: emailController,
+                decoration: _inputDecoration('Email'),
+              ),
+              const SizedBox(height: 30),
+              TextField(
+                controller: passwordController,
                 obscureText: _obscureText,
                 decoration: _inputDecoration('Password').copyWith(
                   suffixIcon: IconButton(
