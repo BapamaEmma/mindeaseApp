@@ -12,11 +12,10 @@ class Signup extends StatefulWidget {
 
 class _SignupState extends State<Signup> {
   String Name = '', Age = '', Email = '', Password = '';
-  TextEditingController nameController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-
+  TextEditingController nameController = new TextEditingController();
+  TextEditingController ageController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController passwordController = new TextEditingController();
   bool _obscureText = true;
 
   @override
