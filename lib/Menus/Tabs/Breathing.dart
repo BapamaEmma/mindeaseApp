@@ -12,8 +12,17 @@ class Breathing extends StatefulWidget {
 class _BreathingState extends State<Breathing> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(children: [_header(), _Calm(), _focus(), _Sleep()]),
+    return Container(
+      child: Column(
+        children: [
+          _header(),
+          _Calm(),
+          SizedBox(height: 15),
+          _focus(),
+          SizedBox(height: 15),
+          _Sleep(),
+        ],
+      ),
     );
   }
 }
@@ -66,7 +75,6 @@ Widget _Calm() {
             ),
           ],
         ),
-
         Positioned(
           left: 0,
           right: 0,
@@ -135,7 +143,6 @@ Widget _focus() {
             ),
           ],
         ),
-
         Positioned(
           left: 0,
           right: 0,
@@ -196,7 +203,6 @@ Widget _Sleep() {
             Text('Ease into deep rest with Mindful Breathing'),
           ],
         ),
-
         Positioned(
           left: 0,
           right: 0,
