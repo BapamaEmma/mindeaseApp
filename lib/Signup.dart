@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mindease_app/Menus/Home.dart';
+import 'package:mindease_app/Navbar.dart';
 import 'package:mindease_app/Signin.dart';
 import 'package:mindease_app/Welcome.dart';
 
@@ -30,6 +31,10 @@ class _SignupState extends State<Signup> {
         if (e.code == 'weak-password') {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(content: Text('The password provided is too weak.')),
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const Navigation()),
           );
         } else if (e.code == 'email-already-in-use') {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -113,9 +118,22 @@ class _SignupState extends State<Signup> {
               const SizedBox(height: 30),
               ElevatedButton(
                 onPressed: () {
+                  if (nameController.text.isNotEmpty &&
+                      emailController.text.isNotEmpty &&
+                      passwordController.text.isNotEmpty) {
+                    Name = nameController.text;
+                    Age = ageController.text;
+                    Email = emailController.text;
+                    Password = passwordController.text;
+                    registration();
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Please fill all fields')),
+                    );
+                  }
                   Navigator.push(
                     context,
-                    SlideFromBottomPageRoute(page: const Home()),
+                    SlideFromBottomPageRoute(page: const Navigation()),
                   );
                 },
                 style: ElevatedButton.styleFrom(
