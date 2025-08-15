@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mindease_app/Navbar.dart';
+import 'package:mindease_app/Services/auth.dart';
 import 'package:mindease_app/Welcome.dart';
 import 'package:mindease_app/signup.dart';
 
@@ -212,7 +213,9 @@ class _SigninState extends State<Signin> {
               fontFamily: 'inter',
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Authservice().signInwithGoogle(context);
+          },
           style: OutlinedButton.styleFrom(
             backgroundColor: Colors.white,
             minimumSize: const Size(double.infinity, 50),
