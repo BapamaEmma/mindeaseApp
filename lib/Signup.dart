@@ -1,6 +1,7 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mindease_app/Menus/Home.dart';
 import 'package:mindease_app/Navbar.dart';
 import 'package:mindease_app/Signin.dart';
 import 'package:mindease_app/Welcome.dart';
