@@ -131,10 +131,6 @@ class _SignupState extends State<Signup> {
                       const SnackBar(content: Text('Please fill all fields')),
                     );
                   }
-                  Navigator.push(
-                    context,
-                    SlideFromBottomPageRoute(page: const Navigation()),
-                  );
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size(double.infinity, 50),
