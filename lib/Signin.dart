@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_final_fields, unused_field
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mindease_app/Menus/Home.dart';
+import 'package:mindease_app/Navbar.dart';
 import 'package:mindease_app/Welcome.dart';
 import 'package:mindease_app/signup.dart'; // ✅ Import your signup page
 
@@ -35,6 +37,33 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
+  String _email = "", password = "";
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
+  userlogin() async {
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _email,
+        password: password,
+      );
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const Navigation()),
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'User-not-Found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Invalid email or password')),
+        );
+      } else {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('An error occurred')));
+      }
+    }
+  }
+
   bool _obscureText = true;
 
   @override
