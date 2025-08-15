@@ -1,11 +1,8 @@
-// ignore_for_file: prefer_final_fields, unused_field
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mindease_app/Menus/Home.dart';
 import 'package:mindease_app/Navbar.dart';
 import 'package:mindease_app/Welcome.dart';
-import 'package:mindease_app/signup.dart'; // ✅ Import your signup page
+import 'package:mindease_app/signup.dart';
 
 // Custom slide transition
 class SlideFromBottomPageRoute extends PageRouteBuilder {
@@ -175,7 +172,7 @@ class _SigninState extends State<Signin> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  SlideFromBottomPageRoute(page: Signup()), // ✅ Go to Signup
+                  SlideFromBottomPageRoute(page: Signup()),
                 );
               },
               child: const Text(
