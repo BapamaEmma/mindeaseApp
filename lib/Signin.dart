@@ -37,15 +37,15 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  String _email = "", password = "";
+  String Email = "", Password = "";
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   userlogin() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _email,
-        password: password,
+        email: Email,
+        password: Password,
       );
       Navigator.push(
         context,
@@ -56,10 +56,12 @@ class _SigninState extends State<Signin> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Invalid email or password')),
         );
-      } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('An error occurred')));
+      } else if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account already exists for that email'),
+          ),
+        );
       }
     }
   }
@@ -105,9 +107,13 @@ class _SigninState extends State<Signin> {
       children: [
         _welcomeBack(),
         const SizedBox(height: 20),
-        TextField(decoration: _inputDecoration('Email')),
+        TextField(
+          controller: _emailController,
+          decoration: _inputDecoration('Email'),
+        ),
         const SizedBox(height: 30),
         TextField(
+          controller: _passwordController,
           obscureText: _obscureText,
           decoration: _inputDecoration('Password').copyWith(
             suffixIcon: IconButton(
@@ -126,10 +132,16 @@ class _SigninState extends State<Signin> {
         const SizedBox(height: 30),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              SlideFromBottomPageRoute(page: const Home()),
-            );
+            if (_emailController.text.isNotEmpty &&
+                _passwordController.text.isNotEmpty) {
+              Email = _emailController.text;
+              Password = _passwordController.text;
+              userlogin();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please fill all fields')),
+              );
+            }
           },
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(double.infinity, 50),
