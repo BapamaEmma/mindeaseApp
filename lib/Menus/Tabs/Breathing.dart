@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mindease_app/Menus/Breathing%20Menus/calm.dart';
+import 'package:mindease_app/Menus/Breathing%20Menus/focus.dart';
+import 'package:mindease_app/Menus/Breathing%20Menus/sleep.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class Breathing extends StatefulWidget {
@@ -16,11 +19,11 @@ class _BreathingState extends State<Breathing> {
       child: Column(
         children: [
           _header(),
-          _Calm(),
+          _Calm(context),
           SizedBox(height: 15),
-          _focus(),
+          _focus(context),
           SizedBox(height: 15),
-          _Sleep(),
+          _Sleep(context),
         ],
       ),
     );
@@ -37,7 +40,7 @@ Widget _header() {
   );
 }
 
-Widget _Calm() {
+Widget _Calm(BuildContext context) {
   return Container(
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
@@ -84,7 +87,10 @@ Widget _Calm() {
             child: Center(
               child: SlideAction(
                 onSubmit: () {
-                  return null;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Calm()),
+                  );
                 },
                 outerColor: Colors.white,
                 innerColor: Color(0xFF008080),
@@ -101,7 +107,7 @@ Widget _Calm() {
   );
 }
 
-Widget _focus() {
+Widget _focus(context) {
   return Container(
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
@@ -152,7 +158,10 @@ Widget _focus() {
             child: Center(
               child: SlideAction(
                 onSubmit: () {
-                  return null;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => focus()),
+                  );
                 },
                 outerColor: Colors.white,
                 innerColor: Color(0xFF008080),
@@ -169,7 +178,7 @@ Widget _focus() {
   );
 }
 
-Widget _Sleep() {
+Widget _Sleep(context) {
   return Container(
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
@@ -212,7 +221,10 @@ Widget _Sleep() {
             child: Center(
               child: SlideAction(
                 onSubmit: () {
-                  return null;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Sleep()),
+                  );
                 },
                 outerColor: Colors.white,
                 innerColor: Color(0xFF008080),
