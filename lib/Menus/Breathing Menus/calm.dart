@@ -29,7 +29,17 @@ class _CalmState extends State<Calm> {
             ),
           ),
 
-          SafeArea(child: Column(children: [header(), timer()])),
+          SafeArea(
+            child: Column(
+              children: [
+                header(),
+                title(),
+                timer(),
+                SizedBox(height: 50),
+                animation(),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -49,29 +59,92 @@ Widget header() {
   );
 }
 
-Widget music() {
-  return Scaffold();
+// Widget music() {
+//   return Scaffold();
+// }
+
+Widget title() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+    child: Align(
+      alignment: Alignment.centerLeft,
+      child: Text(
+        'Select Duration',
+        style: TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
+          color: Color(0xFF008080),
+        ),
+      ),
+    ),
+  );
 }
 
 Widget timer() {
   return Row(
     children: [
-      SizedBox(
-        child: ElevatedButton(
-          onPressed: () {},
-          style: ElevatedButton.styleFrom(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+      Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: SizedBox(
+          width: 120,
+          height: 50,
+          child: OutlinedButton.icon(
+            onPressed: () {},
+            label: Text('15:00'),
+            icon: Icon(Icons.timer, size: 20, color: Color(0xFF008080)),
+            style: OutlinedButton.styleFrom(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
+              side: BorderSide(color: Color(0xFF008080), width: 2),
+              backgroundColor: Colors.transparent,
             ),
           ),
-          child: Text('5:00'),
         ),
       ),
-      ElevatedButton(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(),
-        child: Text('10:00'),
+
+      SizedBox(width: 12), // Space between buttons
+      SizedBox(
+        width: 120,
+        height: 50,
+        child: OutlinedButton.icon(
+          onPressed: () {},
+          label: Text('15:00'),
+          icon: Icon(Icons.timer, size: 20, color: Color(0xFF008080)),
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            side: BorderSide(color: Color(0xFF008080), width: 2),
+            backgroundColor: Colors.transparent,
+          ),
+        ),
+      ),
+      SizedBox(width: 12), // Space between buttons
+      SizedBox(
+        width: 120,
+        height: 50,
+        child: OutlinedButton.icon(
+          onPressed: () {},
+          label: Text('15:00'),
+          icon: Icon(Icons.timer, size: 20, color: Color(0xFF008080)),
+          style: OutlinedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            side: BorderSide(color: Color(0xFF008080), width: 2),
+            backgroundColor: Colors.transparent,
+          ),
+        ),
       ),
     ],
+  );
+}
+
+Widget animation() {
+  return Container(
+    child: Column(
+      children: [Center(child: Text('Unwind Your thoughts and find peace'))],
+    ),
   );
 }
