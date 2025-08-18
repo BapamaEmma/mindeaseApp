@@ -1,5 +1,3 @@
-// ignore_for_file: dead_code
-
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -12,47 +10,57 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(backgroundColor: Colors.grey[100]);
     return Scaffold(
       backgroundColor: Colors.grey[100],
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildGreetingSection(),
+      body: Stack(
+        children: [
+          // Gradient Header Background
+          Container(
+            height: 400,
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF008080), Colors.white],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              borderRadius: BorderRadius.vertical(bottom: Radius.circular(70)),
+            ),
+          ),
 
-              const SizedBox(height: 20),
-
-              _buildCalendarStrip(),
-
-              const SizedBox(height: 20),
-
-              _buildMoodTracker(),
-
-              const SizedBox(height: 24),
-
-              _buildMotivationalQuote(),
-
-              const SizedBox(height: 20),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          // Content Overlay
+          SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(child: _buildBreathingSessionCard()),
-                  const SizedBox(width: 16),
-                  Expanded(child: _buildJournalEntryCard()),
+                  _buildGreetingSection(),
+                  const SizedBox(height: 20),
+                  _buildCalendarStrip(),
+                  const SizedBox(height: 8),
+                  _buildMoodTracker(),
+                  const SizedBox(height: 20),
+
+                  //Bottom Content (Quote + Cards)
+                  _buildMotivationalQuote(),
+                  const SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(child: _buildBreathingSessionCard()),
+                      const SizedBox(width: 18),
+                      Expanded(child: _buildJournalEntryCard()),
+                    ],
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
 
-  /// Custom AppBar Section
+  /// Greeting Section
   Widget _buildGreetingSection() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -62,13 +70,19 @@ class _HomeState extends State<Home> {
           children: [
             const Text(
               "☀️ Good Morning",
-              style: TextStyle(fontSize: 16, color: Colors.black54),
+              style: TextStyle(fontSize: 18, color: Colors.black),
             ),
             Row(
               children: const [
+                SizedBox(width: 26),
                 Text(
-                  "Jeremiah ",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                  "Bapama ",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontFamily: 'inter',
+                  ),
                 ),
                 Text("👋🏽", style: TextStyle(fontSize: 22)),
               ],
@@ -76,7 +90,11 @@ class _HomeState extends State<Home> {
           ],
         ),
         IconButton(
-          icon: const Icon(Icons.notifications_none, size: 30),
+          icon: const Icon(
+            Icons.notifications_none,
+            size: 30,
+            color: Colors.black,
+          ),
           onPressed: () {},
         ),
       ],
@@ -95,9 +113,10 @@ class _HomeState extends State<Home> {
       {'day': 'Sat', 'date': 27, 'emoji': ''},
     ];
 
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+    return SizedBox(
+      height: 103,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
         children:
             dates.map((item) {
               bool isSelected = item['date'] == 23;
@@ -109,13 +128,13 @@ class _HomeState extends State<Home> {
                       decoration: BoxDecoration(
                         color:
                             isSelected
-                                ? Colors.teal
-                                : Colors.teal.withOpacity(0.1),
+                                ? const Color(0xFF008080)
+                                : Colors.white.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: const EdgeInsets.symmetric(
-                        vertical: 10,
-                        horizontal: 16,
+                        vertical: 8,
+                        horizontal: 12,
                       ),
                       child: Column(
                         children: [
@@ -137,10 +156,10 @@ class _HomeState extends State<Home> {
                         ],
                       ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 5),
                     Text(
                       item['emoji'] as String,
-                      style: const TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 22),
                     ),
                   ],
                 ),
@@ -150,7 +169,7 @@ class _HomeState extends State<Home> {
     );
   }
 
-  /// Emoji Mood Tracker
+  /// Mood Tracker
   Widget _buildMoodTracker() {
     final moods = [
       {'emoji': '😊', 'label': 'Happy'},
@@ -159,33 +178,55 @@ class _HomeState extends State<Home> {
       {'emoji': '😰', 'label': 'Anxious'},
       {'emoji': '😠', 'label': 'Angry'},
       {'emoji': '🤩', 'label': 'Excited'},
+      {'emoji': '🥱', 'label': 'Tired'},
+      {'emoji': '😴', 'label': 'Sleepy'},
+      {'emoji': '🤔', 'label': 'Thinking'},
+      {'emoji': '😎', 'label': 'Confident'},
+      {'emoji': '😭', 'label': 'Crying'},
+      {'emoji': '🤯', 'label': 'Overwhelmed'},
+      {'emoji': '😇', 'label': 'Blessed'},
+      {'emoji': '🤒', 'label': 'Sick'},
+      {'emoji': '😋', 'label': 'Playful'},
+      {'emoji': '😍', 'label': 'In Love'},
+      {'emoji': '😤', 'label': 'Frustrated'},
+      {'emoji': '😳', 'label': 'Embarrassed'},
+      {'emoji': '🥳', 'label': 'Celebrating'},
     ];
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
-          "How Are you feeling today ?",
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+          "How are you feeling today?",
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+            fontFamily: 'inter',
+          ),
         ),
-        const SizedBox(height: 16),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
+        const SizedBox(height: 5),
+        SizedBox(
+          height: 90,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
             children:
                 moods.map((mood) {
                   return Padding(
-                    padding: const EdgeInsets.only(right: 16),
+                    padding: const EdgeInsets.only(right: 20),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          mood['emoji']!,
-                          style: const TextStyle(fontSize: 32),
+                          mood['emoji'] as String,
+                          style: const TextStyle(fontSize: 36),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           mood['label']!,
-                          style: const TextStyle(fontSize: 14),
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: Colors.black,
+                          ),
                         ),
                       ],
                     ),
@@ -197,44 +238,55 @@ class _HomeState extends State<Home> {
     );
   }
 
-  /// Motivational Quote Section
+  /// Motivational Quote
   Widget _buildMotivationalQuote() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [Colors.blue[50]!, Colors.purple[50]!],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
+    return Padding(
+      padding: const EdgeInsets.only(top: 20), // Moves the card 20px down
+      child: Container(
+        padding: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue[50]!, Colors.purple[50]!],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(16),
         ),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            "Motivation",
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 8),
-          Text(
-            "\"Every day may not be good, but there’s something good in every day.\"",
-            style: TextStyle(fontSize: 14, color: Colors.black87),
-          ),
-          SizedBox(height: 8),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: Text(
-              "— Alice Morse Earle",
-              style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: const [
+            Text(
+              "Motivation",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'inter',
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 8),
+            Text(
+              "\"Every day may not be good, but there’s something good in every day.\"",
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+                fontFamily: 'inter',
+              ),
+            ),
+            SizedBox(height: 8),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: Text(
+                "— Alice Morse Earle",
+                style: TextStyle(fontSize: 14, fontStyle: FontStyle.italic),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  /// Breathing Session Button
+  /// Breathing Session Card
   Widget _buildBreathingSessionCard() {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -243,6 +295,7 @@ class _HomeState extends State<Home> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(Icons.self_improvement, size: 40, color: Colors.teal),
           const SizedBox(height: 8),
@@ -257,14 +310,21 @@ class _HomeState extends State<Home> {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             ),
             onPressed: () {},
-            child: const Text("breathing session"),
+            child: const Text(
+              "breathing session",
+              style: TextStyle(
+                fontSize: 12,
+                color: Colors.black,
+                fontFamily: 'inter',
+              ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  /// Journal Entry Button
+  /// Journal Entry Card
   Widget _buildJournalEntryCard() {
     return Container(
       padding: const EdgeInsets.all(16),
@@ -273,11 +333,16 @@ class _HomeState extends State<Home> {
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: const [
           Text(
             "Write a quick\nJournal Entry",
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'inter',
+            ),
           ),
           SizedBox(height: 12),
           Icon(Icons.add_circle, size: 40, color: Colors.teal),
