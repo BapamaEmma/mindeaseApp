@@ -36,8 +36,8 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   String Email = "", Password = "";
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   userlogin() async {
     try {

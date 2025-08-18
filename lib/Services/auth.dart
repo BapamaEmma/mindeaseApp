@@ -8,7 +8,7 @@ class Authservice {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   getCurrentUser() async {
-    return await auth.currentUser;
+    return auth.currentUser;
   }
 
   signInwithGoogle(BuildContext context) async {
@@ -18,7 +18,7 @@ class Authservice {
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
 
-    final GoogleSignInAuthentication? googleSignInAuthentication =
+    final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount!.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
@@ -30,20 +30,18 @@ class Authservice {
 
     User? userdetails = result.user;
 
-    if (result != null) {
-      Map<String, dynamic> userInfoMap = {
-        "uid": userdetails!.uid,
-        "email": userdetails.email,
-        "Name": userdetails.displayName,
-        "photoUrl": userdetails.photoURL,
-      };
-      await DatabaseMethods()
-          .addUser(userdetails.uid, userInfoMap)
-          .then((value) {});
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => Navigation()),
-      );
-    }
+    Map<String, dynamic> userInfoMap = {
+      "uid": userdetails!.uid,
+      "email": userdetails.email,
+      "Name": userdetails.displayName,
+      "photoUrl": userdetails.photoURL,
+    };
+    await DatabaseMethods()
+        .addUser(userdetails.uid, userInfoMap)
+        .then((value) {});
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Navigation()),
+    );
   }
 }
