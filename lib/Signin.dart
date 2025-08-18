@@ -1,11 +1,9 @@
-// ignore_for_file: prefer_final_fields, unused_field
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:mindease_app/Menus/Home.dart';
 import 'package:mindease_app/Navbar.dart';
+import 'package:mindease_app/Services/auth.dart';
 import 'package:mindease_app/Welcome.dart';
-import 'package:mindease_app/signup.dart'; // ✅ Import your signup page
+import 'package:mindease_app/signup.dart';
 
 // Custom slide transition
 class SlideFromBottomPageRoute extends PageRouteBuilder {
@@ -37,15 +35,15 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  String _email = "", password = "";
+  String Email = "", Password = "";
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
   userlogin() async {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _email,
-        password: password,
+        email: Email,
+        password: Password,
       );
       Navigator.push(
         context,
@@ -56,10 +54,12 @@ class _SigninState extends State<Signin> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Invalid email or password')),
         );
-      } else {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text('An error occurred')));
+      } else if (e.code == 'email-already-in-use') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Account already exists for that email'),
+          ),
+        );
       }
     }
   }
@@ -105,9 +105,13 @@ class _SigninState extends State<Signin> {
       children: [
         _welcomeBack(),
         const SizedBox(height: 20),
-        TextField(decoration: _inputDecoration('Email')),
+        TextField(
+          controller: _emailController,
+          decoration: _inputDecoration('Email'),
+        ),
         const SizedBox(height: 30),
         TextField(
+          controller: _passwordController,
           obscureText: _obscureText,
           decoration: _inputDecoration('Password').copyWith(
             suffixIcon: IconButton(
@@ -126,10 +130,16 @@ class _SigninState extends State<Signin> {
         const SizedBox(height: 30),
         ElevatedButton(
           onPressed: () {
-            Navigator.push(
-              context,
-              SlideFromBottomPageRoute(page: const Home()),
-            );
+            if (_emailController.text.isNotEmpty &&
+                _passwordController.text.isNotEmpty) {
+              Email = _emailController.text;
+              Password = _passwordController.text;
+              userlogin();
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Please fill all fields')),
+              );
+            }
           },
           style: ElevatedButton.styleFrom(
             minimumSize: const Size(double.infinity, 50),
@@ -163,7 +173,7 @@ class _SigninState extends State<Signin> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  SlideFromBottomPageRoute(page: Signup()), // ✅ Go to Signup
+                  SlideFromBottomPageRoute(page: Signup()),
                 );
               },
               child: const Text(
@@ -203,7 +213,9 @@ class _SigninState extends State<Signin> {
               fontFamily: 'inter',
             ),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Authservice().signInwithGoogle(context);
+          },
           style: OutlinedButton.styleFrom(
             backgroundColor: Colors.white,
             minimumSize: const Size(double.infinity, 50),
