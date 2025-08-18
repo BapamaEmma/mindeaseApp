@@ -7,11 +7,11 @@ import 'package:mindease_app/Services/database.dart';
 class Authservice {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  getCurrentUser() async {
+  Future<User?>? getCurrentUser() async {
     return auth.currentUser;
   }
 
-  signInwithGoogle(BuildContext context) async {
+  Future<void> signInwithGoogle(BuildContext context) async {
     final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
 
@@ -19,11 +19,11 @@ class Authservice {
         await googleSignIn.signIn();
 
     final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount!.authentication;
+        googleSignInAccount!.authentication as GoogleSignInAuthentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
-      idToken: googleSignInAuthentication?.idToken,
-      accessToken: googleSignInAuthentication?.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+      accessToken: googleSignInAuthentication.accessToken,
     );
 
     UserCredential result = await firebaseAuth.signInWithCredential(credential);
