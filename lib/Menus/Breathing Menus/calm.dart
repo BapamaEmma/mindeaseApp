@@ -19,7 +19,7 @@ class _CalmState extends State<Calm> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color(0xFFFC3DEDC),
+                  Color(0xfffc3dedc),
                   Color(0xFFE1D5FF),
                   Color(0xFFFFFFFF),
                 ],
