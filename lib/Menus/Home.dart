@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +12,18 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final user = FirebaseAuth.instance.currentUser;
-
   @override
+  String Greetings() {
+    final hour = DateTime.now().hour;
+    if (hour < 12) {
+      return "Good Morning☀️";
+    } else if (hour < 17) {
+      return "Good Afternoon🌤️";
+    } else {
+      return "Good Evening🌙";
+    }
+  }
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -75,13 +87,12 @@ class _HomeState extends State<Home> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "☀️ Good Morning",
-              style: TextStyle(fontSize: 18, color: Colors.black),
+            Text(
+              Greetings(),
+              style: const TextStyle(fontSize: 18, color: Colors.black),
             ),
             Row(
               children: [
-                const SizedBox(width: 26),
                 Text(
                   "$username",
                   style: const TextStyle(
