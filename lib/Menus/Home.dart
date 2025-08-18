@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -8,6 +9,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  final user = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +22,7 @@ class _HomeState extends State<Home> {
             height: 400,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFF008080), Colors.white],
+                colors: [Color(0xFFC3DEDC), Color(0xFFFFFFF)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -29,29 +32,32 @@ class _HomeState extends State<Home> {
 
           // Content Overlay
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildGreetingSection(),
-                  const SizedBox(height: 20),
-                  _buildCalendarStrip(),
-                  const SizedBox(height: 8),
-                  _buildMoodTracker(),
-                  const SizedBox(height: 20),
-
-                  //Bottom Content (Quote + Cards)
-                  _buildMotivationalQuote(),
-                  const SizedBox(height: 20),
-                  Row(
-                    children: [
-                      Expanded(child: _buildBreathingSessionCard()),
-                      const SizedBox(width: 18),
-                      Expanded(child: _buildJournalEntryCard()),
-                    ],
-                  ),
-                ],
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildGreetingSection(),
+                    const SizedBox(height: 20),
+                    _buildCalendarStrip(),
+                    const SizedBox(height: 8),
+                    _buildMoodTracker(),
+                    const SizedBox(height: 20),
+                    _buildMotivationalQuote(),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        Expanded(child: _buildBreathingSessionCard()),
+                        const SizedBox(width: 18),
+                        Expanded(child: _buildJournalEntryCard()),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -62,6 +68,7 @@ class _HomeState extends State<Home> {
 
   /// Greeting Section
   Widget _buildGreetingSection() {
+    String username = user?.displayName ?? "User";
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -73,18 +80,18 @@ class _HomeState extends State<Home> {
               style: TextStyle(fontSize: 18, color: Colors.black),
             ),
             Row(
-              children: const [
-                SizedBox(width: 26),
+              children: [
+                const SizedBox(width: 26),
                 Text(
-                  "Bapama ",
-                  style: TextStyle(
+                  "$username",
+                  style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                     fontFamily: 'inter',
                   ),
                 ),
-                Text("👋🏽", style: TextStyle(fontSize: 22)),
+                const Text("👋🏽", style: TextStyle(fontSize: 22)),
               ],
             ),
           ],
@@ -114,7 +121,7 @@ class _HomeState extends State<Home> {
     ];
 
     return SizedBox(
-      height: 103,
+      height: 120, // Increased from 103 to 120
       child: ListView(
         scrollDirection: Axis.horizontal,
         children:
@@ -129,7 +136,7 @@ class _HomeState extends State<Home> {
                         color:
                             isSelected
                                 ? const Color(0xFF008080)
-                                : Colors.white.withOpacity(0.3),
+                                : const Color(0xFF98C9C8),
                         borderRadius: BorderRadius.circular(10),
                       ),
                       padding: const EdgeInsets.symmetric(
@@ -288,65 +295,76 @@ class _HomeState extends State<Home> {
 
   /// Breathing Session Card
   Widget _buildBreathingSessionCard() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.teal.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Icon(Icons.self_improvement, size: 40, color: Colors.teal),
-          const SizedBox(height: 8),
-          const Text("Need A Minute to Relax?", textAlign: TextAlign.center),
-          const SizedBox(height: 12),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.teal,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30),
+    return SizedBox(
+      width: 50,
+      height: 190,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.teal.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.self_improvement, size: 40, color: Colors.teal),
+            const SizedBox(height: 8),
+            const Text("Need A Minute to Relax?", textAlign: TextAlign.center),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 10,
+                ),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-            ),
-            onPressed: () {},
-            child: const Text(
-              "breathing session",
-              style: TextStyle(
-                fontSize: 12,
-                color: Colors.black,
-                fontFamily: 'inter',
+              onPressed: () {},
+              child: const Text(
+                "breathing session",
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.black,
+                  fontFamily: 'inter',
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
   /// Journal Entry Card
   Widget _buildJournalEntryCard() {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.purple.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
-          Text(
-            "Write a quick\nJournal Entry",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'inter',
+    return SizedBox(
+      width: 50,
+      height: 190,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: Colors.purple.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Text(
+              "Write a quick\nJournal Entry",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'inter',
+              ),
             ),
-          ),
-          SizedBox(height: 12),
-          Icon(Icons.add_circle, size: 40, color: Colors.teal),
-        ],
+            SizedBox(height: 12),
+            Icon(Icons.add_circle, size: 40, color: Colors.teal),
+          ],
+        ),
       ),
     );
   }
