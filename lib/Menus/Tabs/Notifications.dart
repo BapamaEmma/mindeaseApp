@@ -53,7 +53,7 @@ class _NotificationsState extends State<Notifications> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 32), // Remove the title from the body
+                const SizedBox(height: 28),
                 _notificationTile(
                   title: 'Daily Check in Reminders',
                   subtitle:
@@ -61,14 +61,14 @@ class _NotificationsState extends State<Notifications> {
                   value: dailyCheckIn,
                   onChanged: (val) => setState(() => dailyCheckIn = val),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 18),
                 _notificationTile(
                   title: 'Motivational Quote Alert',
                   subtitle: 'Receive Alerts on Motivational Quotes',
                   value: motivationalQuote,
                   onChanged: (val) => setState(() => motivationalQuote = val),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 18),
                 _notificationTile(
                   title: 'Breathing Session Reminders',
                   subtitle: 'Set Reminders for breathing session',
@@ -99,14 +99,19 @@ class _NotificationsState extends State<Notifications> {
                 title,
                 style: const TextStyle(
                   fontSize: 18,
+                  fontFamily: 'inter',
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 2),
+              const SizedBox(height: 5),
               Text(
                 subtitle,
-                style: const TextStyle(fontSize: 15, color: Colors.black),
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontFamily: 'inter',
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
