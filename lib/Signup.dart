@@ -22,7 +22,7 @@ class _SignupState extends State<Signup> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  registration() async {
+  Future<void> registration() async {
     if (Password != "" && Email != "" && Password != "") {
       try {
         UserCredential userCredential = await FirebaseAuth.instance
