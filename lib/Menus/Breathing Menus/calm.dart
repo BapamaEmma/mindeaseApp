@@ -1,6 +1,6 @@
 import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:mindease_app/Models/playlist_provider.dart';
 import 'package:mindease_app/Models/song.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +44,8 @@ class _CalmState extends State<Calm> {
                 timer(),
                 SizedBox(height: 50),
                 animation(),
+                SizedBox(height: 10),
+                breathinganimation(),
               ],
             ),
           ),
@@ -249,4 +251,22 @@ void showPlaylistBottomSheet(BuildContext context) {
   );
 }
 
-// Example button to trigger the bottom sheet
+Widget breathinganimation() {
+  return Stack(
+    alignment: Alignment.center,
+    children: [
+      Center(child: Lottie.asset('assets/Animations/Breathing.json')),
+      Positioned(
+        top: 185,
+        child: Text(
+          'Breathe',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    ],
+  );
+}

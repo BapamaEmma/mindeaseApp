@@ -73,6 +73,7 @@ flutter:
     - assets/images/music_note.png
     - assets/Audio/Calm/lofi-chill-background-music-313055.mp3
     - assets/Audio/Calm/relaxing-rain-387677.mp3
+    - assets/Animations/Breathing.json
   
 
   # An image asset can refer to one or more resolution-specific "variants", see
