@@ -53,7 +53,7 @@ class _NavigationState extends State<Navigation> {
               onTabChange: _navigateBottomBar,
               selectedIndex: _selectedIndex,
               tabBackgroundColor: Color(0xFF98C9C8),
-              activeColor: Colors.white,
+              activeColor: Colors.grey[75],
               gap: 8,
               padding: EdgeInsets.all(16),
               tabs: [
