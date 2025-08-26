@@ -40,6 +40,7 @@ dependencies:
   firebase_auth: ^6.0.1
   google_sign_in: ^6.3.0
   cloud_firestore: ^6.0.0
+  provider: ^6.1.5+1
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,11 @@ flutter:
     - assets/images/illustration.png
     - assets/images/Splashscreen Logo.png
     - assets/images/goog_icon.png
+    - assets/images/music_note.png
+    - assets/Audio/Calm/lofi-chill-background-music-313055.mp3
+    - assets/Audio/Calm/relaxing-rain-387677.mp3
+    - assets/Animations/Breathing.json
+  
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

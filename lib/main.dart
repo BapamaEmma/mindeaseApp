@@ -1,14 +1,21 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mindease_app/Models/playlist_provider.dart';
 
 import 'package:mindease_app/Splashscreen.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
     await Firebase.initializeApp();
     print("Firebase initialized successfully!");
-    runApp(const MyApp());
+    runApp(
+      ChangeNotifierProvider<PlaylistProvider>(
+        create: (context) => PlaylistProvider(),
+        child: const MyApp(),
+      ),
+    );
   } catch (e) {
     print("Firebase initialization failed: $e");
     runApp(ErrorApp(error: e.toString()));
