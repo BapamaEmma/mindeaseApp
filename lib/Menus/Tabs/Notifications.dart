@@ -39,7 +39,7 @@ class _NotificationsState extends State<Notifications> {
         height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF008080), Colors.white],
+            colors: [Color(0xFFC1F0F6), Color(0xFFDCF6E9)],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),

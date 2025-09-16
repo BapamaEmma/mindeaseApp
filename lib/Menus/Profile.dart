@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mindease_app/Menus/Tabs/ChangePassword.dart';
 import 'package:mindease_app/Menus/Tabs/Notifications.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 // Ensure the ChangePassword.dart file contains a class named ChangePasswordScreen
 
 class Profile extends StatefulWidget {
@@ -11,8 +12,11 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final user = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
+    String username = user?.displayName ?? "User";
+    String userEmail = user?.email ?? "No email available";
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: SizedBox.expand(
@@ -24,7 +28,7 @@ class _ProfileState extends State<Profile> {
               height: double.infinity,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFF008080), Colors.white],
+                  colors: [Color(0xFFC3DEDC), Color(0xFFFFFFF)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -64,21 +68,21 @@ class _ProfileState extends State<Profile> {
                   ),
                   const SizedBox(height: 16),
                   // Name
-                  const Center(
+                  Center(
                     child: Text(
-                      'Bapama',
-                      style: TextStyle(
+                      "$username",
+                      style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
                         color: Colors.black,
                       ),
                     ),
                   ),
-                  // Email
-                  const Center(
+                  // Email - Now dynamic
+                  Center(
                     child: Text(
-                      'manuelbapama@gmail.com',
-                      style: TextStyle(
+                      userEmail,
+                      style: const TextStyle(
                         fontSize: 16,
                         fontFamily: 'inter',
                         color: Colors.grey,

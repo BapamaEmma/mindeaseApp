@@ -2,6 +2,8 @@ import 'dart:ffi';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:mindease_app/Menus/Breathing%20Menus/calm.dart';
+import 'package:slide_to_act/slide_to_act.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -322,25 +324,26 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 8),
             const Text("Need A Minute to Relax?", textAlign: TextAlign.center),
             const SizedBox(height: 12),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 10,
-                ),
-              ),
-              onPressed: () {},
-              child: const Text(
-                "breathing session",
-                style: TextStyle(
+            SizedBox(
+              height: 50,
+
+              child: SlideAction(
+                borderRadius: 30,
+                innerColor: Colors.teal,
+                outerColor: Colors.teal.withOpacity(0.2),
+                text: "Breathing Session",
+                textStyle: const TextStyle(
                   fontSize: 12,
                   color: Colors.black,
                   fontFamily: 'inter',
                 ),
+                sliderButtonIconSize: 12,
+                onSubmit: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Calm()),
+                  );
+                },
               ),
             ),
           ],
@@ -380,3 +383,5 @@ class _HomeState extends State<Home> {
     );
   }
 }
+
+
