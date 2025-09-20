@@ -26,6 +26,7 @@ class _HomeState extends State<Home> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -36,7 +37,7 @@ class _HomeState extends State<Home> {
             height: 400,
             decoration: const BoxDecoration(
               gradient: LinearGradient(
-                colors: [Color(0xFFC3DEDC), Color(0xFFFFFFF)],
+                colors: [Color(0xFFC3DEDC), Color(0x0fffffff)],
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
@@ -96,7 +97,7 @@ class _HomeState extends State<Home> {
             Row(
               children: [
                 Text(
-                  "$username",
+                  username,
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -343,6 +344,7 @@ class _HomeState extends State<Home> {
                     context,
                     MaterialPageRoute(builder: (context) => const Calm()),
                   );
+                  return null;
                 },
               ),
             ),

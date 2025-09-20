@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mindease_app/Menus/Tabs/ChangePassword.dart';
-import 'package:mindease_app/Menus/Tabs/Notifications.dart';
+import 'package:mindease_app/Menus/ChangePassword.dart';
+import 'package:mindease_app/Menus/Notifications.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // Ensure the ChangePassword.dart file contains a class named ChangePasswordScreen
 
@@ -28,7 +28,7 @@ class _ProfileState extends State<Profile> {
               height: double.infinity,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                  colors: [Color(0xFFC3DEDC), Color(0xFFFFFFF)],
+                  colors: [Color(0xFFC3DEDC), Color(0x0fffffff)],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                 ),
@@ -70,7 +70,7 @@ class _ProfileState extends State<Profile> {
                   // Name
                   Center(
                     child: Text(
-                      "$username",
+                      username,
                       style: const TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -129,6 +129,12 @@ class _ProfileState extends State<Profile> {
                           _profileOption(
                             icon: Icons.info_outline,
                             text: 'About Us',
+                            onTap: () {},
+                          ),
+                          _divider(),
+                          _profileOption(
+                            icon: Icons.logout_outlined,
+                            text: 'Logout',
                             onTap: () {},
                           ),
                         ],
