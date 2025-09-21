@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'Tabs/Calendar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -8,6 +11,36 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  int _activeDate = DateTime.now().day;
+  Map<int, String> _dateMoods = {}; // date -> mood emoji
+
+  @override
+  void initState() {
+    super.initState();
+    _loadMoods();
+  }
+
+  Future<void> _loadMoods() async {
+    final prefs = await SharedPreferences.getInstance();
+    final moodsString = prefs.getString('dateMoods');
+    if (moodsString != null) {
+      final decoded = jsonDecode(moodsString) as Map<String, dynamic>;
+      setState(() {
+        _dateMoods = decoded.map(
+          (key, value) => MapEntry(int.parse(key), value as String),
+        );
+      });
+    }
+  }
+
+  Future<void> _saveMoods() async {
+    final prefs = await SharedPreferences.getInstance();
+    final encoded = jsonEncode(
+      _dateMoods.map((key, value) => MapEntry(key.toString(), value)),
+    );
+    await prefs.setString('dateMoods', encoded);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +60,6 @@ class _HomeState extends State<Home> {
             ),
           ),
 
-          // Content Overlay
           SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -41,7 +73,6 @@ class _HomeState extends State<Home> {
                   _buildMoodTracker(),
                   const SizedBox(height: 20),
 
-                  //Bottom Content (Quote + Cards)
                   _buildMotivationalQuote(),
                   const SizedBox(height: 20),
                   Row(
@@ -104,13 +135,13 @@ class _HomeState extends State<Home> {
   /// Calendar Strip
   Widget _buildCalendarStrip() {
     final dates = [
-      {'day': 'Sun', 'date': 21, 'emoji': '😊'},
-      {'day': 'Mon', 'date': 22, 'emoji': '😡'},
-      {'day': 'Tue', 'date': 23, 'emoji': ''},
-      {'day': 'Wed', 'date': 24, 'emoji': ''},
-      {'day': 'Thu', 'date': 25, 'emoji': ''},
-      {'day': 'Fri', 'date': 26, 'emoji': ''},
-      {'day': 'Sat', 'date': 27, 'emoji': ''},
+      {'day': 'Sun', 'date': 14},
+      {'day': 'Mon', 'date': 15},
+      {'day': 'Tue', 'date': 16},
+      {'day': 'Wed', 'date': 17},
+      {'day': 'Thu', 'date': 18},
+      {'day': 'Fri', 'date': 19},
+      {'day': 'Sat', 'date': 20},
     ];
 
     return SizedBox(
@@ -119,49 +150,59 @@ class _HomeState extends State<Home> {
         scrollDirection: Axis.horizontal,
         children:
             dates.map((item) {
-              bool isSelected = item['date'] == 23;
+              int date = item['date'] as int;
+              bool isSelected = date == _activeDate;
+              String emoji = _dateMoods[date] ?? '';
               return Padding(
                 padding: const EdgeInsets.only(right: 12),
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        color:
-                            isSelected
-                                ? const Color(0xFF008080)
-                                : Colors.white.withOpacity(0.3),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 8,
-                        horizontal: 12,
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            item['day'] as String,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 14,
+                child: GestureDetector(
+                  onTap: () async {
+                    setState(() {
+                      _activeDate = date;
+                    });
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Calendar()),
+                    );
+                  },
+                  child: Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color:
+                              isSelected
+                                  ? const Color(0xFF008080)
+                                  : Colors.white.withOpacity(0.3),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 8,
+                          horizontal: 12,
+                        ),
+                        child: Column(
+                          children: [
+                            Text(
+                              item['day'] as String,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 14,
+                              ),
                             ),
-                          ),
-                          Text(
-                            "${item['date']}",
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
+                            Text(
+                              "$date",
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 5),
-                    Text(
-                      item['emoji'] as String,
-                      style: const TextStyle(fontSize: 22),
-                    ),
-                  ],
+                      const SizedBox(height: 5),
+                      Text(emoji, style: const TextStyle(fontSize: 22)),
+                    ],
+                  ),
                 ),
               );
             }).toList(),
@@ -213,22 +254,30 @@ class _HomeState extends State<Home> {
                 moods.map((mood) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          mood['emoji'] as String,
-                          style: const TextStyle(fontSize: 36),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          mood['label']!,
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: Colors.black,
+                    child: GestureDetector(
+                      onTap: () async {
+                        setState(() {
+                          _dateMoods[_activeDate] = mood['emoji']!;
+                        });
+                        await _saveMoods();
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            mood['emoji'] as String,
+                            style: const TextStyle(fontSize: 36),
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 8),
+                          Text(
+                            mood['label']!,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }).toList(),
