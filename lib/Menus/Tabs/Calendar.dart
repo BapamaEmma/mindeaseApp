@@ -114,6 +114,7 @@ class _CalendarState extends State<Calendar> {
         crossAxisSpacing: 6,
       ),
       itemCount: totalCells,
+      scrollDirection: Axis.vertical,
       itemBuilder: (context, index) {
         final dayNum = index - (firstWeekday - 1) + 1;
         if (dayNum < 1 || dayNum > daysInMonth) {
@@ -143,7 +144,7 @@ class _CalendarState extends State<Calendar> {
                 "$dayNum",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 22,
+                  fontSize: 18,
                   color:
                       isSelected
                           ? Colors.white

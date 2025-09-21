@@ -12,11 +12,18 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   int _activeDate = DateTime.now().day;
-  Map<int, String> _dateMoods = {}; // date -> mood emoji
+  Map<int, String> _dateMoods = {};
 
   @override
   void initState() {
     super.initState();
+    final today = DateTime.now().day;
+    final calendarDates = [15, 16, 17, 18, 19, 20, 21];
+    if (calendarDates.contains(today)) {
+      _activeDate = today;
+    } else {
+      _activeDate = calendarDates.first;
+    }
     _loadMoods();
   }
 
@@ -120,13 +127,30 @@ class _HomeState extends State<Home> {
             ),
           ],
         ),
-        IconButton(
-          icon: const Icon(
-            Icons.notifications_none,
-            size: 30,
-            color: Colors.black,
-          ),
-          onPressed: () {},
+        Row(
+          children: [
+            IconButton(
+              icon: const Icon(
+                Icons.calendar_today,
+                size: 28,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Calendar()),
+                );
+              },
+            ),
+            IconButton(
+              icon: const Icon(
+                Icons.notifications_none,
+                size: 30,
+                color: Colors.black,
+              ),
+              onPressed: () {},
+            ),
+          ],
         ),
       ],
     );
@@ -135,13 +159,13 @@ class _HomeState extends State<Home> {
   /// Calendar Strip
   Widget _buildCalendarStrip() {
     final dates = [
-      {'day': 'Sun', 'date': 14},
       {'day': 'Mon', 'date': 15},
       {'day': 'Tue', 'date': 16},
       {'day': 'Wed', 'date': 17},
       {'day': 'Thu', 'date': 18},
       {'day': 'Fri', 'date': 19},
       {'day': 'Sat', 'date': 20},
+      {'day': 'Sun', 'date': 21},
     ];
 
     return SizedBox(
