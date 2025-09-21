@@ -144,7 +144,7 @@ class _CalendarState extends State<Calendar> {
                 "$dayNum",
                 style: TextStyle(
                   fontWeight: FontWeight.w600,
-                  fontSize: 18,
+                  fontSize: 16,
                   color:
                       isSelected
                           ? Colors.white
